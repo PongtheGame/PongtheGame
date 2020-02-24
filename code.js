@@ -1,11 +1,18 @@
 function setup() {
-    createCanvas(400, 400);
+    var cnv = createCanvas(400, 400);
     // deze functie is nodig om een opzet te creëren
+    cnv.position(295, 770);
 };
 
 new p5()
+
 var currentScene = 1;
-  
+var objectSize = 30;
+var colourCounter = 0;
+var surpriseBart = false;
+var goal = false;
+var goalCounter = 0;
+
 var counter = 0;
   
 //Batje A
@@ -641,9 +648,9 @@ var drawRulesScreenExtreme = function(){
 // deze functie zorgt ervoor dat de batjes kunnen bewegen tegenover elkaar  
 batjesUpdate = function() {
     var stepSize = 4
-    if (keyIsDown(38) == true) { // pijltje omhoog
+    if (keyIsDown(79) == true) { // pijltje omhoog
         batjeB.snelheid = -stepSize;
-    } else if (keyIsDown(40) == true) { // pijltje omlaag
+    } else if (keyIsDown(76) == true) { // pijltje omlaag
         batjeB.snelheid = stepSize;
     } else {
         batjeB.snelheid = 0;
@@ -806,7 +813,99 @@ var player2Wins = function(){
     ball.kleur2 = 255;
     ball.kleur3 = 51;
 };
-  
+
+var bSurprise = function() {
+    if (colourCounter === 0) {
+        //Rondje met Bartpower
+        if (objectSize < 600) {
+            objectSize = objectSize + 7;
+            noStroke();
+            fill(255, 255, 255);
+            ellipse(200, 200, objectSize, objectSize);
+            fill(0, 0, 0);
+            ellipse(200, 200, 0.95 * objectSize, 0.95 * objectSize);
+            fill(255, 255, 255);
+            textSize(0.2 * objectSize);
+            text("BART", 200 - 0.25 * objectSize, 200 - 0.1 * objectSize);
+            text("POWER", 200 - 0.37 * objectSize, 200 + 0.2 * objectSize);
+            fill(0, 0, 0);
+            textSize(0.15 * objectSize);
+            text("▓▓▓▓▓▓▓", 200 - 0.36 * objectSize, 200 + 0.16 * objectSize);
+            text("▓▓▓▓▓", 200 - 0.25 * objectSize, 200 - 0.12 * objectSize);
+        }
+        if (objectSize >= 600) {
+            objectSize = 0;
+            colourCounter = 1;
+        }
+    }
+    if (colourCounter === 1) {
+        //driehoek met Bartpower
+        if (objectSize < 500) {
+            objectSize = objectSize + 5;  
+            noStroke();
+            fill(255, 255, 255);
+            triangle(200, 195 - objectSize, 190 - objectSize, 210 + objectSize, 210 + objectSize, 210 + objectSize);
+            fill(255, 0, 0);
+            triangle(200, 195 - objectSize, 190 - objectSize, 150 + objectSize, 170 + objectSize, 210 + objectSize);
+            fill(255, 255, 255);
+            textSize(0.2 * objectSize);
+            text("THE", 200 - 0.2 * objectSize, 200 - 0.3 * objectSize);
+            text("AND ONLY", 200 - 0.5 * objectSize, 200 + 0.4 * objectSize);
+            fill(0, 0, 0);
+            text("B A R T", 200 - 0.34 * objectSize, 200 + 0.11 * objectSize);
+            fill(255, 255, 255);
+            text("▒▒▒▒▒▒", 200 - 0.43 * objectSize, 200 + 0.1 * objectSize);
+            fill(0, 0, 0);
+            textSize(0.5 * objectSize);
+            text("1", 200 - 0.15* objectSize, 200 + 0.18 * objectSize);
+        }
+        if (objectSize >= 500) {
+            objectSize = 0;
+            colourCounter = 2;
+        }
+    }
+    if (colourCounter === 2) {
+       // vierkant met bart forever
+        if (objectSize < 210) {
+            objectSize = objectSize + 3;
+            noStroke();
+            fill(9, 0, 255);
+            rect(200 - objectSize, 200 - objectSize, 2 * objectSize, 2 * objectSize);  
+            fill(255, 0, 0);
+            textSize(0.5 * objectSize);
+            text("♥♥♥♥♥♥", 200 - 0.87 * objectSize, 200 + 0.1 *objectSize);
+            fill(255, 255, 255);
+            textSize(0.35 * objectSize);
+            text("BART", 200 - 0.45 * objectSize, 200 - 0.4 * objectSize);
+            text("FOREVER", 200 - 0.85 * objectSize, 200 + 0.55 * objectSize);
+        }
+        if (objectSize >= 210) {
+            objectSize = 0;
+            colourCounter = 0;
+        }
+    }
+};
+
+var goalSign = function(){
+    if(ball.Xpos >= 395 || ball.Xpos <= 5){
+        goal = true;
+    }
+    if(goal === true){
+        goalCounter += 1;
+        noStroke();
+        fill(255, 255, 7);
+        rect(0, 105, 400, 40);
+        fill(0, 0, 0);
+        stroke(0, 0, 0);
+        textSize(30);
+        text("GOAL!", 158, 135);
+        if(goalCounter === 90){
+            goal = false;
+            goalCounter = 0;
+        }
+    }
+};
+
 //het bepalen van de richting van het balletje bij bereiken van Batja B
 var drawBounceBatjeB = function() {
     //sector 1: 45 graden omhoog
@@ -1059,6 +1158,15 @@ keyPressed = function(){
     else if(keyCode === 27 && currentScene === 11 || currentScene === 12){
         currentScene = 10;
     }
+    else if(keyCode === 66 && surpriseBart === false){
+        surpriseBart = true;
+    }
+};
+
+keyReleased = function(){
+    if(keyCode === 66 && surpriseBart === true){
+        surpriseBart = false;
+    }
 };
 
 // dit is de draw functie die alles tekent op een bepaald moment/een bepaalde scene
@@ -1074,6 +1182,7 @@ function draw() {
         batjeA.hoogte = 200 - 0.5*batjeA.size;
         batjeB.breedte = 380;
         batjeB.hoogte = 200 - 0.5*batjeB.size;
+        goalSign();
     }
     if (currentScene === 2) { // zoals je kan zien wordt dit getekent bij scene 2
         drawPongTheGame();
@@ -1081,6 +1190,7 @@ function draw() {
         drawBatjeA();
         drawBatjeB();
         batjesUpdate();
+        goalSign();
         // print(PowerUpNr);
         // print(powerUp.X, powerUp.Y);
     }
@@ -1115,6 +1225,7 @@ function draw() {
         drawScoreBoardExtreme();
         batjesUpdate();
         drawPowerUps();
+        goalSign();
     }
     if(currentScene === 12){
         drawRulesScreenExtreme();
@@ -1122,6 +1233,9 @@ function draw() {
         drawTitleAnimation();
         
         
+    }
+    if(surpriseBart === true){
+        bSurprise();
     }
 };
   
