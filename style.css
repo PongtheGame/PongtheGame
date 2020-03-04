@@ -8,14 +8,13 @@ body
 {
     background-image: url(1770519.jpg);
     height: 350vh;
-    background-size: auto;
+    background-size: cover;
     background-position: center;
 }
 
 .main-nav
 {
     float: left;
-    position: center;
     list-style: none;
     margin-top: 500px;
     margin-left: 608px;
@@ -47,12 +46,58 @@ body
     border: 1px solid white;
 }
 
+.menu-nav{
+    float: left;
+    list-style: none;
+    margin-top: 850px;
+    margin-left: -850px;
+}
+
+.menu-nav2{
+    float: left;
+    list-style: none;
+    margin-top: 1730px;
+    margin-left: -850px;
+}
+
+.menu-nav li{
+    display: block;
+}
+
+.menu-nav2 li{
+    display: block;
+}
+
+.menu-nav li a{
+    color:white;
+    text-decoration: none;
+    padding: 5px 20;
+    font-family: "Roboto", sans-serif;
+    font-size: 30px;
+}
+
+.menu-nav2 li a{
+    color:white;
+    text-decoration: none;
+    padding: 5px 20;
+    font-family: "Roboto", sans-serif;
+    font-size: 30px;
+}
+
+.menu-nav li.active a{
+    border: 1px solid white;
+}
+
+.menu-nav2 li.active a{
+    border: 1px solid white;
+}
+
 .title
 {
-    position: center;
+    position: absolute;
     width: 120px;
     margin-left: 462;
-    margin-top: 70;
+    margin-top: 80;
     font-size: 100;
 }
 
@@ -66,7 +111,7 @@ h1
 
 .subtitle
 {
-    position: center;
+    position: absolute;
     width: 120px;
     margin-left: 685;
     margin-top: 270;
@@ -115,20 +160,11 @@ h4
     text-transform: uppercase;
     text-align: center;
     margin-top: -320;
-}
-
-h5
-{
-    position: center;
-    text-align: center;
-    text-transform: unset;
-    width: 500px;
-    font-size: 20;
-    margin-left: -165;
+    margin-left: -5;
 }
 
 .creators{
-    position: center;
+    position: absolute;
     color: white;
     font-family: serif;
     font-style: italic;
@@ -232,6 +268,61 @@ h5
     color: white;
     font-family: serif;
     font-size: 20px;
-    margin-top: 1500;
+    margin-top: 1200;
     margin-left: 160;
+}
+
+.controlsE{
+    position: absolute;
+    color: orange;
+    font-family: monospace;
+    font-size: 30px;
+    margin-top: 1250;
+    margin-left: 130;
+}
+
+.controlsEMeaning{
+    position: absolute;
+    color: white;
+    font-family: serif;
+    font-size: 15px;
+    margin-top: 1260;
+    margin-left: 170;
+}
+
+.aboutquote{
+    position: absolute;
+    color: black;
+    font-family: serif;
+    font-size: 40px;
+    font-style: italic;
+    margin-top: 1900;
+    margin-left: 160;
+}
+
+.abouttext{
+    position: absolute;
+    color:white;
+    font-family: serif;
+    font-size: 20px;
+    margin-top: 2000;
+    margin-left: 535;
+}
+
+.abouttext2{
+    position: absolute;
+    color:white;
+    font-family: serif;
+    font-size: 20px;
+    margin-top: 2040;
+    margin-left: 660;
+}
+
+.abouttext3{
+    position: absolute;
+    color:white;
+    font-family: serif;
+    font-size: 10px;
+    margin-top: 2080;
+    margin-left: 683;
 }

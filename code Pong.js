@@ -1,13 +1,14 @@
 function setup() {
     var cnv = createCanvas(600, 600);
     // deze functie is nodig om een opzet te creëren
-    cnv.position(440, 880);
+    cnv.position(440, 900);
 };
 
 new p5()
 
 var resize = 1.5;
 
+// alle variabelen op een rijtje die niet in een functie passen
 var currentScene = 1;
 var objectSize = 30*resize;
 var colourCounter = 0;
@@ -20,36 +21,36 @@ var counter = 0;
 //Batje A
 var batjeA = {
     size : 50*resize,
-    breedte : 20*resize,
-    hoogte : 180*resize,
+    X : 10*resize,
+    Y : 180*resize,
     snelheid: 0
 };
-batjeA.hoogte = 200 - 0.5*batjeA.size*resize;
+batjeA.Y = 200*resize - 0.5*batjeA.size; // de Y positie moest bepaald worden door een bepaalde formule daarom staat die buiten het object
   
 var calcSectorA = function() {  //het berekenen van de sectoren van batje A
-    batjeA.beginsector1 = batjeA.hoogte+18;
-    batjeA.beginsector2 = batjeA.hoogte+18 + (batjeA.size/5);
-    batjeA.beginsector3 = batjeA.hoogte+18 + 2*(batjeA.size/5);
-    batjeA.beginsector4 = batjeA.hoogte+18 + 3*(batjeA.size/5);
-    batjeA.beginsector5 = batjeA.hoogte+18 + 4*(batjeA.size/5);
-    batjeA.eindsector5 = batjeA.hoogte+18 + batjeA.size;
+    batjeA.beginsector1 = batjeA.Y;
+    batjeA.beginsector2 = batjeA.Y + (batjeA.size/5);
+    batjeA.beginsector3 = batjeA.Y + 2*(batjeA.size/5);
+    batjeA.beginsector4 = batjeA.Y + 3*(batjeA.size/5);
+    batjeA.beginsector5 = batjeA.Y + 4*(batjeA.size/5);
+    batjeA.eindsector5 = batjeA.Y + batjeA.size;
 };
   
 //Batje B
 var batjeB = {
     size : 50*resize,
-    breedte : 370*resize,
+    X : 380*resize,
 };
-batjeB.hoogte = 200 - 0.5*batjeB.size*resize;
+batjeB.Y = 200*resize - 0.5*batjeB.size; // de Y positie moest bepaald worden door een bepaalde formule daarom staat die buiten het object
 batjeB.snelheid = 0;
   
 var calcSectorB = function() {  //het berekenen van de sectoren van batje A
-    batjeB.beginsector1 = batjeB.hoogte+18; 
-    batjeB.beginsector2 = batjeB.hoogte+18 + (batjeB.size/5);
-    batjeB.beginsector3 = batjeB.hoogte+18 + 2*(batjeB.size/5);
-    batjeB.beginsector4 = batjeB.hoogte+18 + 3*(batjeB.size/5);
-    batjeB.beginsector5 = batjeB.hoogte+18 + 4*(batjeB.size/5);
-    batjeB.eindsector5 = batjeB.hoogte+18 + batjeB.size;
+    batjeB.beginsector1 = batjeB.Y; 
+    batjeB.beginsector2 = batjeB.Y + (batjeB.size/5);
+    batjeB.beginsector3 = batjeB.Y + 2*(batjeB.size/5);
+    batjeB.beginsector4 = batjeB.Y + 3*(batjeB.size/5);
+    batjeB.beginsector5 = batjeB.Y + 4*(batjeB.size/5);
+    batjeB.eindsector5 = batjeB.Y + batjeB.size;
 };
 
 // de coördinaten voor het batje op het titelscherm (deze willen we nog laten bewegen)
@@ -70,6 +71,7 @@ var ball = {
     kleur3 : 51
 };
 
+//coördinaten en grootte balletje van de powerup Twoball
 var ball2 = {
     Xpos : ball.Xpos,
     Ypos : ball.Ypos,
@@ -99,6 +101,7 @@ var powerUp = {
     Y : 50*resize
 };
 
+//variabelen nodig voor de power-up functie
 var speeding = 1*resize;
 var PowerUpNr = 0;
 
@@ -107,7 +110,7 @@ var drawBatjeA = function() {
     calcSectorA();
     fill(255, 255, 255);
     stroke(255, 255, 255);
-    rect(batjeA.breedte-15, batjeA.hoogte+19, 10*resize, batjeA.size);
+    rect(batjeA.X, batjeA.Y, 10*resize, batjeA.size);
 };
   
 //het bereken van de positie van batje B
@@ -115,7 +118,7 @@ var drawBatjeB = function() {
     calcSectorB();
     fill(255, 255, 255);
     stroke(255, 255, 255);
-    rect(batjeB.breedte, batjeB.hoogte+19, 10*resize, batjeB.size);
+    rect(batjeB.X, batjeB.Y, 10*resize, batjeB.size);
 };
 
 // het maken van het Batje van player 2 bij PONG EXTREME
@@ -123,7 +126,7 @@ var drawBatjeBExtreme = function() {
     calcSectorB();
     fill(0, 0, 0);
     stroke(77, 252, 50);
-    rect(batjeB.breedte, batjeB.hoogte+19, 10*resize, batjeB.size);
+    rect(batjeB.X, batjeB.Y, 10*resize, batjeB.size);
 };
 
 // het maken van het Batje van player 1 bij PONG EXTREME
@@ -131,18 +134,18 @@ var drawBatjeAExtreme = function(){
     calcSectorA();
     fill(0, 0, 0);
     stroke(77, 252, 50);
-    rect(batjeA.breedte, batjeA.hoogte+19, 10*resize, batjeA.size);
+    rect(batjeA.X, batjeA.Y, 10*resize, batjeA.size);
 };
 
 // Een class die is aangemaakt voor de regel 'press E to go EXTREME' aan te maken en de laten bewegen op het titelscherm
 class pongExtremeHint {
-    constructor() {
+    constructor() { // dit zijn alle variabelen 
         this.x = 200*resize;
         this.y = 180*resize;
         this.hintSize = 7*resize;
         this.hintBigger = true;
     }
-    draw() {
+    draw() { // hier wordt de functie gevisualiseerd wat hij moet tekenen op het canvas
         textAlign(CENTER,CENTER);
         textSize(this.hintSize);
         fill(255);
@@ -150,7 +153,7 @@ class pongExtremeHint {
         text("Press E to go EXTREME", this.x, this.y);
         textAlign(LEFT, BASELINE);
     }
-    update() {
+    update() { // dit is de uiteindelijke functie die de code moet uitvoeren om de zin 'press E to go EXTREME' te laten bewegen op en neer
         if (this.hintBigger) {
             this.hintSize += 0.1*resize;
         }
@@ -168,43 +171,40 @@ class pongExtremeHint {
 
 var hint = new pongExtremeHint();
 
-// het laten zien van de PU-Faster
-
+// deze functie zorgt ervoor dat de powerups random in het veld verschijnen
 var drawPowerUps = function (){
-    if (PowerUpNr === 0) {
+    if (PowerUpNr === 0) { // als powerupNr 0 is pakt de code weer een nieuwe x, y positie en een nieuwe random powerup
         powerUp.X = random(100, 300)*resize;
-        powerUp.Y = random(20, 380)*resize;
+        powerUp.Y = random(50, 380)*resize;
         PowerUpNr = ceil(random(0, 7));
     }
-    if (PowerUpNr === 1) {
-        //puFaster
+    if (PowerUpNr === 1) { // als powerupnr 1 is wordt de powerup Faster getoond
         puFaster();
-        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize){
+        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize){ // als powerup 1 wordt geraakt wordt de powerup geactiveerd
             PowerUpNr = -1;
         }
     }
-    if (PowerUpNr === -1) {
+    if (PowerUpNr === -1) { // de powerup is geactiveerd
         counter += 1;
-        speeding = 1.5*resize;
+        speeding = 1.5*resize; // de bal gaat sneller
         if(counter >= 300){
             speeding = 1*resize;
             PowerUpNr = 0;
             counter = 0;
         }
     }
-    if (PowerUpNr === 2) {
-        //puBigBat
+    if (PowerUpNr === 2) { // als powerupnr 2 is wordt de powerup BigBat getoond
         puBigBat();
-        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize && richting.X >= 0){
+        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize && richting.X >= 0){ // als powerup 2 wordt geraakt wordt de powerup geactiveerd
             PowerUpNr = -2;
         }
-        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize && richting.X <= 0){
+        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize && richting.X <= 0){ // als powerup 2 wordt geraakt wordt de powerup geactiveerd
             PowerUpNr = -2.1;
         }
     }
-    if (PowerUpNr === -2) {
+    if (PowerUpNr === -2) { // de powerup is geactiveerd
         counter += 1;
-        batjeA.size = 70*resize;
+        batjeA.size = 70*resize; // het batje wordt groter van batjeA
         if (counter >= 420){
             batjeB.size = 50*resize;
             batjeA.size = 50*resize;
@@ -212,9 +212,9 @@ var drawPowerUps = function (){
             PowerUpNr = 0;
         }
     }
-    if(PowerUpNr === -2.1){
+    if(PowerUpNr === -2.1){ // de powerup is geactiveerd
         counter += 1;
-        batjeB.size = 70*resize;
+        batjeB.size = 70*resize; // het batje wordt groter van batjeB
         if (counter >= 420){
             batjeB.size = 50*resize;
             batjeA.size = 50*resize;
@@ -222,16 +222,15 @@ var drawPowerUps = function (){
             PowerUpNr = 0;
         }   
     }
-    if (PowerUpNr === 3) {
-        //puInvisible
+    if (PowerUpNr === 3) { // als powerupnr 3 is wordt de powerup Invisible getoond
         puInvisible();
-        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize){
+        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize){ // als powerup 3 wordt geraakt wordt de powerup geactiveerd
             PowerUpNr = -3;
         }
     }
-    if (PowerUpNr === -3){
+    if (PowerUpNr === -3){ // de powerup is geactiveerd
         counter += 1;
-        ball.kleur1 = 0;
+        ball.kleur1 = 0; // de kleur van de ball gaat naar zwart, dit maakt de bal onzichtbaar
         ball.kleur2 = 0;
         ball.kleur3 = 0;
         if (counter >= 90){
@@ -242,18 +241,18 @@ var drawPowerUps = function (){
             PowerUpNr = 0;
         }
     }
-    if (PowerUpNr === 4){
+    if (PowerUpNr === 4){ // als powerupnr 4 is wordt de powerup SmallBat getoond
         puSmallBat();
-        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize && richting.X >= 0){
+        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize && richting.X >= 0){ // als powerup 4 wordt geraakt wordt de powerup geactiveerd
             PowerUpNr = -4;
         }
-        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize && richting.X <= 0){
+        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize && richting.X <= 0){ // als powerup 4 wordt geraakt wordt de powerup geactiveerd
             PowerUpNr = -4.1;
         }
     }
-    if (PowerUpNr === -4){
+    if (PowerUpNr === -4){ // de powerup is geactiveerd
         counter += 1;
-        batjeB.size = 30*resize;
+        batjeB.size = 30*resize; // het batje wordt kleiner van batje B
         if (counter >= 300){
             batjeB.size = 50*resize;
             batjeA.size = 50*resize;
@@ -262,9 +261,9 @@ var drawPowerUps = function (){
         }
 
     }
-    if (PowerUpNr === -4.1){
+    if (PowerUpNr === -4.1){ // de powerup is geactiveerd
         counter += 1;
-        batjeA.size = 30*resize;
+        batjeA.size = 30*resize; // het batje wordt kleiner van batje A
         if (counter >= 300){
             batjeB.size = 50*resize;
             batjeA.size = 50*resize;
@@ -272,33 +271,33 @@ var drawPowerUps = function (){
             PowerUpNr = 0;
         }
     }
-    if (PowerUpNr === 5){
+    if (PowerUpNr === 5){ // als powerupnr 5 is wordt de powerup Teleport getoond
         puTeleport();
-        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize){
+        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize){ // als powerup 5 wordt geraakt wordt de powerup geactiveerd
             PowerUpNr = -5;
         }
     }
-    if (PowerUpNr === -5){
+    if (PowerUpNr === -5){ // de powerup is geactiveerd
         counter += 1;
         if (counter === 1) {
-            ball.Ypos = random(30, 380)*resize;
+            ball.Ypos = random(30, 380)*resize; // de bal verplaats op een random positie op de Y-as
         }
-        if (counter > 0 && counter <= 40 || counter > 120 && counter <= 160 || counter > 240 && counter <= 280){
+        if (counter > 0 && counter <= 40 || counter > 120 && counter <= 160 || counter > 240 && counter <= 280){ // de kleur verandert van de ball
             ball.kleur1 += 5;
             ball.kleur2 = 5;
             ball.kleur3 -= 10;
         }
-        if (counter > 40 && counter <= 80 || counter > 160 && counter <= 200 || counter > 280 && counter <= 320) {
+        if (counter > 40 && counter <= 80 || counter > 160 && counter <= 200 || counter > 280 && counter <= 320) { // de kleur verandert van de ball
             ball.kleur2 += 5;
             ball.kleur1 = 5;
             ball.kleur3 -= 10;
         }
-        if (counter > 80 && counter <= 120 || counter > 200 && counter <= 240 || counter > 320 && counter <= 360){
+        if (counter > 80 && counter <= 120 || counter > 200 && counter <= 240 || counter > 320 && counter <= 360){ // de kleur verandert van de ball
             ball.kleur3 = 255;
             ball.kleur1 += 10;
             ball.kleur2 += 5;
         }
-        if (counter > 360){
+        if (counter > 360){ // de kleur verandert van de ball
             ball.kleur1 = 245;
             ball.kleur2 = 255;
             ball.kleur3 = 51;
@@ -306,19 +305,19 @@ var drawPowerUps = function (){
             PowerUpNr = 0;
         }
     }
-    if (PowerUpNr === 6){
+    if (PowerUpNr === 6){ // als powerupnr 6 is wordt de powerup Glitch getoond
         puGlitch();
-        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize){
+        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize){ // als powerup 6 wordt geraakt wordt de powerup geactiveerd
             PowerUpNr = -6;
         }
     }
-    if (PowerUpNr === -6){
+    if (PowerUpNr === -6){ // de powerup is geactiveerd
         ball.kleur1 = 0;
-        ball.kleur2 = 255;
+        ball.kleur2 = 255; // de kleur van de ball veranderd
         ball.kleur3 = 0;
         counter += 1;
         if (counter === 20 && ball.Ypos >= 40*resize && ball.Ypos <= 360*resize || counter === 50 && ball.Ypos >= 40*resize && ball.Ypos <= 360*resize|| counter === 80 && ball.Ypos >= 40*resize && ball.Ypos <= 360*resize){
-            ball.Ypos = random(ball.Ypos + 40*resize, ball.Ypos - 40*resize);
+            ball.Ypos = random(ball.Ypos + 40*resize, ball.Ypos - 40*resize); // de bal verspringt op verschillende tijdstippen over de y-as
         }
         if (counter > 120){
             counter = 0;
@@ -328,9 +327,9 @@ var drawPowerUps = function (){
             ball.kleur3 = 51;
         }
     }
-    if (PowerUpNr === 7){
+    if (PowerUpNr === 7){ // als powerupnr 7 is wordt de powerup TwoBall getoond
         puTwoBall();
-        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize){
+        if(Math.sqrt(Math.pow(ball.Xpos - powerUp.X,2)*resize + Math.pow(ball.Ypos - powerUp.Y,2))*resize <= 27*resize){ // als powerup 7 wordt geraakt wordt de powerup geactiveerd
             ball2.Xpos = ball.Xpos;
             ball2.Ypos = ball.Ypos;
             richting.X2 = richting.X*resize;
@@ -339,21 +338,21 @@ var drawPowerUps = function (){
             PowerUpNr = -7;
         }
     }
-    if (PowerUpNr === -7){
+    if (PowerUpNr === -7){ // de powerup is geactiveerd
         if (richting.Y === 0 && ball.Xpos % 2 === 0){
 		    richting.Y = 1;
-            richting.Y2 = -1;
+            richting.Y2 = -1; // er wordt een extra ball gecreëerd en de tegenovergestelde richting op geschoten
         }
         else if (richting.Y === 0 && ball.Xpos % 2 !== 0){
 		    richting.Y = -1;
-		    richting.Y2 = 1;
+		    richting.Y2 = 1; // er wordt een extra ball gecreëerd en de tegenovergestelde richting op geschoten
         }
         counter += 1;
         fill(253, 122, 0);
         stroke(253, 122, 0);
         ellipse(ball2.Xpos, ball2.Ypos, ball.straal, ball.straal);
         ball2.Xpos += richting.X2;
-        ball2.Ypos += richting.Y2;
+        ball2.Ypos += richting.Y2; // er wordt een extra ball gecreëerd en de tegenovergestelde richting op geschoten
         if (counter === 60){
             ball2.Xpos = 500;
             ball2.Ypos = 500;
@@ -406,6 +405,7 @@ var puSmallBat = function(){
     text('↓', powerUp.X-4.5*resize, powerUp.Y+4*resize);
 };
 
+// het laten zien van de PU-Teleport
 var puTeleport = function() {
     fill(134, 5, 255);
     stroke(134, 5, 255);
@@ -416,6 +416,7 @@ var puTeleport = function() {
     text('✦', powerUp.X-7.5*resize, powerUp.Y+6*resize);
 };
 
+// het laten zien van de PU-Glitch
 var puGlitch = function() {
     fill(116, 231, 242);
     stroke(116, 231, 242);
@@ -426,6 +427,7 @@ var puGlitch = function() {
     text('☢',powerUp.X-8.3*resize, powerUp.Y+7*resize);
 };
 
+// het laten zien van de PU-TwoBall
 var puTwoBall = function() {
     fill(255, 234, 0);
     stroke(255, 234, 0);
@@ -497,6 +499,7 @@ drawTitleAnimation = function() {
             textSize(30*resize);
             text("THE GAME", 118*resize, 158*resize);
         }
+        // the game rood
         if(random(0, 1000) > 980) {
             fill(255, 0, 0);
             stroke(0, 0, 0);
@@ -516,6 +519,7 @@ drawTitleAnimation = function() {
         }
     }
     }
+    // het laten glitchen van de titel bij Rules extreme
     if (currentScene === 12){
         textSize(80*resize);
         if (random(0, 10) > 8){
@@ -641,36 +645,56 @@ var drawRulesScreenExtreme = function(){
 // deze functie zorgt ervoor dat de batjes kunnen bewegen tegenover elkaar  
 batjesUpdate = function() {
     var stepSize = 4*resize
-    if (keyIsDown(79) == true) { // pijltje omhoog
+    if (keyIsDown(79) == true) { //  de toets o
         batjeB.snelheid = -stepSize;
-    } else if (keyIsDown(76) == true) { // pijltje omlaag
+    } else if (keyIsDown(76) == true) { // de toets s
         batjeB.snelheid = stepSize;
     } else {
         batjeB.snelheid = 0;
     }
-    if (keyIsDown(87) == true) { // w
+    if (keyIsDown(87) == true) { // de toets w
         batjeA.snelheid = -stepSize;
-    } else if (keyIsDown(83) == true) { // s
+    } else if (keyIsDown(83) == true) { // de toets s
         batjeA.snelheid = stepSize;
     } else {
         batjeA.snelheid = 0;
     }
-    batjeA.hoogte += batjeA.snelheid;
-    batjeB.hoogte += batjeB.snelheid;
-    if (batjeB.hoogte > 376*resize - batjeB.size) {
-        batjeB.hoogte = 376*resize - batjeB.size;
+    batjeA.Y += batjeA.snelheid;
+    batjeB.Y += batjeB.snelheid;
+    if (batjeB.Y > 390*resize - batjeB.size) { // als de Y positie van batje B groter is dan 390 kan hij niet meer groter worden
+        batjeB.Y = 390*resize - batjeB.size;
     }
-    if (batjeB.hoogte < -4*resize) {
-        batjeB.hoogte = -4*resize;
+    if (batjeB.Y < 10*resize) { // als de Y positie van Batje B kleiner is dan 10 kan hij niet meer kleiner worden
+        batjeB.Y = 10*resize;
     }
-    if (batjeA.hoogte > 376*resize - batjeA.size) {
-        batjeA.hoogte = 376*resize - batjeA.size;
+    if (batjeA.Y > 390*resize - batjeA.size) { // als de Y positie van batje A groter is dan 390 kan hij niet meer groter worden
+        batjeA.Y = 390*resize - batjeA.size;
     }
-    if (batjeA.hoogte < -4*resize) {
-        batjeA.hoogte = -4*resize;
+    if (batjeA.Y < 10*resize) { // als de Y positie van Batje A kleiner is dan 10 kan hij niet meer kleiner worden
+        batjeA.Y = 10*resize;
     }
 };
-  
+
+// deze functie veranderd alle waarden, die in het spel zijn veranderd, terug naar de beginwaarden
+var resetValues = function(){
+    ball.Xpos = 200*resize;
+    ball.Ypos = 200*resize;
+    richting.X = 1;
+    richting.Y = 0;
+    PowerUpNr = 0;
+    batjeA.Y = (200*resize - 0.5*batjeA.size);
+    batjeB.Y = (200*resize - 0.5*batjeB.size);
+    score.practise = 0;
+    score.player1 = 0;
+    score.player2 = 0;
+    score.player1Ex = 0;
+    score.player2Ex = 0;
+    ball.kleur1 = 245;
+    ball.kleur2 = 255;
+    ball.kleur3 = 51;
+    counter = 0;
+};
+
 // de functie tekent de knop 'start' om de game te starten
 var drawPlayButton = function() {
     fill(10, 222, 250);
@@ -762,6 +786,7 @@ var drawScoreBoardPractise = function() {
     text(score.practise, 240*resize, 30*resize);
 };
 
+// deze functie tekent het scoreboard in PONG EXTREME
 var drawScoreBoardExtreme = function(){
     fill(245, 255, 51);
     stroke(0, 0, 0);
@@ -772,8 +797,6 @@ var drawScoreBoardExtreme = function(){
   
 // zodra speler 1 wint eindigt het spel en verschijnt er een tekst met 'player 1 wint', ook wordt de return button getekent
 var player1Wins = function() {
-    powerUp.X = 200*resize;
-    powerUp.Y = 200*resize;
     fill(255, 0, 0);
     stroke(0, 0, 0);
     rect(125*resize, 180*resize, 140*resize, 40*resize);
@@ -782,17 +805,11 @@ var player1Wins = function() {
     text("Player 1 Wins", 134*resize, 207*resize);
     richting.X = 0;
     richting.Y = 0;
-    drawReturnButton();
-    counter = 0;
-    ball.kleur1 = 245;
-    ball.kleur2 = 255;
-    ball.kleur3 = 51;
+    drawReturnButton();       
 };
   
 // deze functie doet precies hetzelfde als de functie van player1Wins alleen dan voor speler 2
 var player2Wins = function(){
-    powerUp.X = 200*resize;
-    powerUp.Y = 200*resize;
     fill(255, 0, 0);
     stroke(0, 0, 0);
     rect(125*resize, 180*resize, 140*resize, 40*resize);
@@ -801,13 +818,10 @@ var player2Wins = function(){
     text("Player 2 Wins", 134*resize, 207*resize);
     richting.X = 0;
     richting.Y = 0;
-    drawReturnButton();
-    counter = 0;
-    ball.kleur1 = 245;
-    ball.kleur2 = 255;
-    ball.kleur3 = 51;
+    drawReturnButton();    
 };
 
+// dit is voor jou Bart omdat we zoveel van je houden, oh ja en het laat 3 banners zien met allemaal quotes voor jouw werk
 var bSurprise = function() {
     if (colourCounter === 0) {
         //Rondje met Bartpower
@@ -880,11 +894,11 @@ var bSurprise = function() {
     }
 };
 
-var goalSign = function(){
+var goalSign = function(){ // het maken van de banner met daarop GOAL wanneer iemand heeft gescoord
     if(ball.Xpos >= 395*resize || ball.Xpos <= 5*resize){
         goal = true;
     }
-    if(goal === true){
+    if(goal === true){ // wanneer er is gescoord wordt de banner vertoond
         goalCounter += 1;
         noStroke();
         fill(255, 255, 255);
@@ -896,7 +910,7 @@ var goalSign = function(){
         stroke(0, 0, 0);
         textSize(30*resize);
         text("GOAL!", 158*resize, 135*resize);
-        if(goalCounter === 90){
+        if(goalCounter === 90){ // wanneer er is gescoord wordt de banner vertoond
             goal = false;
             goalCounter = 0;
         }
@@ -906,27 +920,27 @@ var goalSign = function(){
 //het bepalen van de richting van het balletje bij bereiken van Batja B
 var drawBounceBatjeB = function() {
     //sector 1: 45 graden omhoog
-    if(ball.Ypos >= batjeB.beginsector1 && ball.Ypos <= batjeB.beginsector2 && ball.Xpos >= batjeB.breedte - ball.straal && ball.Xpos <= batjeB.breedte + 5 + ball.straal) {
+    if(ball.Ypos >= batjeB.beginsector1 && ball.Ypos <= batjeB.beginsector2 && ball.Xpos >= batjeB.X - ball.straal && ball.Xpos <= batjeB.X + 5 + ball.straal) {
         richting.X = -3; 
         richting.Y = -3;
     }
     //sector 2: 22.5 graden omhoog
-    else if(ball.Ypos > batjeB.beginsector2 && ball.Ypos <= batjeB.beginsector3 && ball.Xpos >= batjeB.breedte - ball.straal && ball.Xpos <= batjeB.breedte + 5 + ball.straal) {
+    else if(ball.Ypos > batjeB.beginsector2 && ball.Ypos <= batjeB.beginsector3 && ball.Xpos >= batjeB.X - ball.straal && ball.Xpos <= batjeB.X + 5 + ball.straal) {
         richting.X = -3; 
         richting.Y = -1.5;
     }
     //sector 3: 0 graden
-    else if(ball.Ypos > batjeB.beginsector3 && ball.Ypos <= batjeB.beginsector4 && ball.Xpos >= batjeB.breedte - ball.straal && ball.Xpos <= batjeB.breedte + 5 + ball.straal) {    
+    else if(ball.Ypos > batjeB.beginsector3 && ball.Ypos <= batjeB.beginsector4 && ball.Xpos >= batjeB.X - ball.straal && ball.Xpos <= batjeB.X + 5 + ball.straal) {    
         richting.X = -3; 
         richting.Y = 0;
     }
     //sector 4: 22.5 graden omlaag
-    else if(ball.Ypos > batjeB.beginsector4 && ball.Ypos <= batjeB.beginsector5 && ball.Xpos >= batjeB.breedte - ball.straal && ball.Xpos <= batjeB.breedte + 5 + ball.straal) {    
+    else if(ball.Ypos > batjeB.beginsector4 && ball.Ypos <= batjeB.beginsector5 && ball.Xpos >= batjeB.X - ball.straal && ball.Xpos <= batjeB.X + 5 + ball.straal) {    
         richting.X = -3; 
         richting.Y = 1.5;
     }
     //sector 5: 45 graden omlaag
-    else if(ball.Ypos > batjeB.beginsector5 && ball.Ypos <= batjeB.eindsector5 && ball.Xpos >= batjeB.breedte - ball.straal && ball.Xpos <= batjeB.breedte + 5 + ball.straal) {    
+    else if(ball.Ypos > batjeB.beginsector5 && ball.Ypos <= batjeB.eindsector5 && ball.Xpos >= batjeB.X - ball.straal && ball.Xpos <= batjeB.X + 5 + ball.straal) {    
         richting.X = -3; 
         richting.Y = 3;
     }
@@ -949,7 +963,8 @@ var drawPractiseRoom = function() {
     fill(255, 255, 255);
     stroke(255, 255, 255);
     rect(192.4*resize, 11*resize, 5*resize, 378*resize);
-    
+    rect(10*resize, 60*resize, 10*resize, 30*resize);
+    rect(10*resize, 310*resize, 10*resize, 30*resize);
     fill(247, 138, 5);
     stroke(247, 138, 5);
     ellipse (ball.Xpos, ball.Ypos, ball.straal, ball.straal);
@@ -959,12 +974,14 @@ var drawPractiseRoom = function() {
     stroke(255, 255, 255);
     drawBounceBatjeB();
      
-    if(ball.Ypos >= 400*resize || ball.Ypos <= 0){
+    if(ball.Ypos >= 400*resize || ball.Ypos <= 0*resize){
         richting.Y = -richting.Y;
     }
-    if(ball.Xpos <= 20*resize){
+    if(ball.Xpos >= 400*resize || ball.Xpos <= 20*resize) {
         richting.X = -richting.X;
-        score.practise = score.practise + 1;
+    }
+    if(ball.Xpos <= 20*resize && ball.Ypos >= 60*resize && ball.Ypos <= 90*resize || ball.Xpos <= 20*resize && ball.Ypos >= 310*resize && ball.Ypos <= 340*resize) {
+        score.practise += 1;
     }
     if(ball.Xpos >= 400*resize) {
         richting.X = 1;
@@ -999,27 +1016,27 @@ var drawPongTheGame = function() {
     stroke(255, 255, 255);
     
     //richting bepalen bij kaatsing van batje A in de verschillende sectoren
-    if(ball.Ypos >= batjeA.beginsector1 && ball.Ypos <= batjeA.beginsector2 && ball.Xpos >= batjeA.breedte + ball.straal && ball.Xpos <= batjeA.breedte + 10 + ball.straal) {
+    if(ball.Ypos >= batjeA.beginsector1 && ball.Ypos <= batjeA.beginsector2 && ball.Xpos >= batjeA.X + ball.straal && ball.Xpos <= batjeA.X + 10 + ball.straal) {
         richting.X = 3;
         richting.Y = -3;
     }
     //batje A sector 2: 22.5 graden omhoog
-    else if(ball.Ypos >= batjeA.beginsector2 && ball.Ypos <= batjeA.beginsector3 && ball.Xpos >= batjeA.breedte + ball.straal && ball.Xpos <= batjeA.breedte + 10 + ball.straal) {      
+    else if(ball.Ypos >= batjeA.beginsector2 && ball.Ypos <= batjeA.beginsector3 && ball.Xpos >= batjeA.X + ball.straal && ball.Xpos <= batjeA.X + 10 + ball.straal) {      
         richting.X = 3;
         richting.Y = -1.5;
     }
     //batje A sector 3: 0 graden
-    else if(ball.Ypos > batjeA.beginsector3 && ball.Ypos <= batjeA.beginsector4 && ball.Xpos >= batjeA.breedte + ball.straal && ball.Xpos <= batjeA.breedte + 10 + ball.straal) {
+    else if(ball.Ypos > batjeA.beginsector3 && ball.Ypos <= batjeA.beginsector4 && ball.Xpos >= batjeA.X + ball.straal && ball.Xpos <= batjeA.X + 10 + ball.straal) {
         richting.X = 3;
         richting.Y = 0;
     }
     //batje A sector 4: 22.5 graden omlaag
-    else if(ball.Ypos > batjeA.beginsector4 && ball.Ypos <= batjeA.beginsector5 && ball.Xpos >= batjeA.breedte + ball.straal && ball.Xpos <= batjeA.breedte + 10 + ball.straal) {
+    else if(ball.Ypos > batjeA.beginsector4 && ball.Ypos <= batjeA.beginsector5 && ball.Xpos >= batjeA.X + ball.straal && ball.Xpos <= batjeA.X + 10 + ball.straal) {
         richting.X = 3;
         richting.Y = 1.5;
     }
     //Batje A sector 5: 45 graden omlaag
-    else if(ball.Ypos > batjeA.beginsector5 && ball.Ypos <= batjeA.eindsector5 && ball.Xpos >= batjeA.breedte + ball.straal && ball.Xpos <= batjeA.breedte + 10 + ball.straal) {   
+    else if(ball.Ypos > batjeA.beginsector5 && ball.Ypos <= batjeA.eindsector5 && ball.Xpos >= batjeA.X + ball.straal && ball.Xpos <= batjeA.X + 10 + ball.straal) {   
         richting.X = 3;
         richting.Y = 3;
     }
@@ -1055,7 +1072,7 @@ var drawPongTheGame = function() {
     }
 };
 
-var drawPongExtreme = function(){
+var drawPongExtreme = function(){ // het tekenen van PONG the game EXTREME
     currentScene = 11;
     background(0, 0, 0);
     fill(255, 242, 0);
@@ -1082,27 +1099,27 @@ var drawPongExtreme = function(){
     
     //richting bepalen bij kaatsing van batje A in de verschillende sectoren
     //batjeA sector 1: 45 graden omhoog
-    if(ball.Ypos >= batjeA.beginsector1 && ball.Ypos <= batjeA.beginsector2 && ball.Xpos >= batjeA.breedte + 5 + ball.straal && ball.Xpos <= batjeA.breedte + 10 + ball.straal) {
+    if(ball.Ypos >= batjeA.beginsector1 && ball.Ypos <= batjeA.beginsector2 && ball.Xpos >= batjeA.X + 5 + ball.straal && ball.Xpos <= batjeA.X + 10 + ball.straal) {
         richting.X = 3;
         richting.Y = -3;
     }
     //batje A sector 2: 22.5 graden omhoog
-    else if(ball.Ypos >= batjeA.beginsector2 && ball.Ypos <= batjeA.beginsector3 && ball.Xpos >= batjeA.breedte + 5 + ball.straal && ball.Xpos <= batjeA.breedte + 10 + ball.straal) {       
+    else if(ball.Ypos >= batjeA.beginsector2 && ball.Ypos <= batjeA.beginsector3 && ball.Xpos >= batjeA.X + 5 + ball.straal && ball.Xpos <= batjeA.X + 10 + ball.straal) {       
         richting.X = 3;
         richting.Y = -1.5;
     }
     //batje A sector 3: 0 graden
-    else if(ball.Ypos > batjeA.beginsector3 && ball.Ypos <= batjeA.beginsector4 && ball.Xpos >= batjeA.breedte + 5 + ball.straal && ball.Xpos <= batjeA.breedte + 10 + ball.straal) {
+    else if(ball.Ypos > batjeA.beginsector3 && ball.Ypos <= batjeA.beginsector4 && ball.Xpos >= batjeA.X + 5 + ball.straal && ball.Xpos <= batjeA.X + 10 + ball.straal) {
         richting.X = 3;
         richting.Y = 0;
     }
     //batje A sector 4: 22.5 graden omlaag
-    else if(ball.Ypos > batjeA.beginsector4 && ball.Ypos <= batjeA.beginsector5 && ball.Xpos >= batjeA.breedte + 5 + ball.straal && ball.Xpos <= batjeA.breedte + 10 + ball.straal) {
+    else if(ball.Ypos > batjeA.beginsector4 && ball.Ypos <= batjeA.beginsector5 && ball.Xpos >= batjeA.X + 5 + ball.straal && ball.Xpos <= batjeA.X + 10 + ball.straal) {
         richting.X = 3;
         richting.Y = 1.5;
     }
     //Batje A sector 5: 45 graden omlaag
-    else if(ball.Ypos > batjeA.beginsector5 && ball.Ypos <= batjeA.eindsector5 && ball.Xpos >= batjeA.breedte + 5 + ball.straal && ball.Xpos <= batjeA.breedte + 10 + ball.straal) {    
+    else if(ball.Ypos > batjeA.beginsector5 && ball.Ypos <= batjeA.eindsector5 && ball.Xpos >= batjeA.X + 5 + ball.straal && ball.Xpos <= batjeA.X + 10 + ball.straal) {    
         richting.X = 3; 
         richting.Y = 3;
     }
@@ -1139,28 +1156,30 @@ var drawPongExtreme = function(){
 
 };
 
-keyPressed = function(){
-    if(keyCode === 69 && currentScene === 1) {
+keyPressed = function(){ // bij het drukken op de bepaalde toetsen van het keyboard gebeuren er verschillende functies
+    if(keyCode === 69 && currentScene === 1) { // de E toets, Naar PONG EXTREME titelscherm
         drawTitleScreenExtreme();
         currentScene = 10; }
-    else if(keyCode === 69 && currentScene === 10) {
+    else if(keyCode === 69 && currentScene === 10) { // de E toets, terug naar het normale titelscherm
         drawTitleScreen();
         drawPlayButton();
         drawPractiseButton();
         drawRules(); }
-    else if(keyCode === 27 && currentScene === 2 || keyCode === 27 && currentScene === 3 || keyCode === 27 && currentScene === 4){
+    else if(keyCode === 27 && currentScene === 2 || keyCode === 27 && currentScene === 3 || keyCode === 27 && currentScene === 4){ // de ESC toets, terug naar het normale titelscherm
         currentScene = 1;
+        resetValues();
     }
-    else if(keyCode === 27 && currentScene === 11 || keyCode === 27 && currentScene === 12){
+    else if(keyCode === 27 && currentScene === 11 || keyCode === 27 && currentScene === 12){ // de ESC toets, terug naar het EXTREME titelscherm
         currentScene = 10;
+        resetValues();
     }
-    else if(keyCode === 66 && surpriseBart === false){
+    else if(keyCode === 66 && surpriseBart === false){ // de B toets, om de surprise voor bart te showen
         surpriseBart = true;
     }
 };
 
 keyReleased = function(){
-    if(keyCode === 66 && surpriseBart === true){
+    if(keyCode === 66 && surpriseBart === true){ // als de B toets wordt losgelaten verdwijnt de surprise
         surpriseBart = false;
     }
 };
@@ -1174,10 +1193,6 @@ function draw() {
         drawRules();
         hint.draw();
         hint.update();
-        batjeA.breedte = 20*resize;
-        batjeA.hoogte = (200 - 0.5*batjeA.size)*resize;
-        batjeB.breedte = 380*resize;
-        batjeB.hoogte = (200 - 0.5*batjeB.size)*resize;
         goalSign();
     }
     if (currentScene === 2) { // zoals je kan zien wordt dit getekent bij scene 2
@@ -1187,8 +1202,6 @@ function draw() {
         drawBatjeB();
         batjesUpdate();
         goalSign();
-        // print(PowerUpNr);
-        // print(powerUp.X, powerUp.Y);
     }
     if (currentScene === 3) { // en onderstaande wordt getekent bij scene 3
         drawPractiseRoom();
@@ -1197,25 +1210,16 @@ function draw() {
         drawBatjeB();
         batjesUpdate();
     }
-    if (currentScene === 10) {
+    if (currentScene === 10) { // dit wordt getekent bij scene 10
         drawTitleScreenExtreme();
         drawTitleAnimation();
         drawPlayExtremeButton();
         drawPractiseExtremeButton();
         drawRulesExtreme();
-        PowerUpNr = 0; 
-        ball.kleur1 = 245;
-        ball.kleur2 = 255;
-        ball.kleur3 = 51;
-        batjeA.breedte = 20*resize;
-        batjeA.hoogte = (200 - 0.5*batjeA.size)*resize;
-        batjeB.breedte = 380*resize;
-        batjeB.hoogte = (200 - 0.5*batjeB.size)*resize;
-        ball.Xpos = 200*resize;
-        ball.Ypos = 200*resize;
+        PowerUpNr = 0;
         speeding = 1*resize;
     }
-    if (currentScene === 11){
+    if (currentScene === 11){ // dit wordt getekent bij scene 11
         drawPongExtreme();
         drawBatjeAExtreme();
         drawBatjeBExtreme();
@@ -1224,36 +1228,33 @@ function draw() {
         drawPowerUps();
         goalSign();
     }
-    if(currentScene === 12){
+    if(currentScene === 12){ // dit wordt getekent bij scene 12
         drawRulesScreenExtreme();
         drawBackButton();
         drawTitleAnimation();
         
         
     }
-    if(surpriseBart === true){
+    if(surpriseBart === true){ // dit wordt getekent wanneer de B toets wordt ingedrukt
         bSurprise();
     }
 };
   
 // zodra de muis van de computer op een bepaalde plek op het canvas klikt (in dit geval de knoppen van de game) veranderd de game naar een nieuwe 'scene'. Hierdoor kan je meerdere schermen creëren.
 mouseClicked = function() {
-    if (mouseX >= 80*resize && mouseX <= 200*resize && mouseY >= 280*resize && mouseY <= 320*resize) {
+    if (mouseX >= 80*resize && mouseX <= 200*resize && mouseY >= 280*resize && mouseY <= 320*resize) { // wanneer er met de muis binnen deze marges wordt geklikt
         if(currentScene === 1) {
             drawPongTheGame(); }
         if(currentScene === 10){
             drawPongExtreme();
         }
-        else if(mouseX >= 135*resize && mouseX <= 255*resize && mouseY >= 260*resize && mouseY <= 300*resize){
+        else if(mouseX >= 135*resize && mouseX <= 255*resize && mouseY >= 260*resize && mouseY <= 300*resize){ // wanneer er met de muis binnen deze marges wordt geklikt
             if(currentScene === 2) {
             drawTitleScreen();
             drawPlayButton();
             drawPractiseButton();
             drawRules();
-            score.player1 = 0;
-            score.player2 = 0;
-            richting.X = 1*resize;
-            richting.Y = 0;
+            resetValues();
             currentScene = 1; }
             if(currentScene === 11){
                 drawTitleScreenExtreme();
@@ -1261,38 +1262,31 @@ mouseClicked = function() {
                 drawPlayExtremeButton();
                 drawPractiseExtremeButton();
                 drawRulesExtreme();
-                score.player1Ex = 0;
-                score.player2Ex = 0;
-                richting.X = 1*resize;
-                richting.Y = 0;
+                resetValues();
                 currentScene = 10;
-                counter = 0;
             }
         }
         }
-    if (mouseX >= 230*resize && mouseX <= 330*resize && mouseY >= 250*resize && mouseY <= 285*resize && currentScene === 1) {
+    if (mouseX >= 230*resize && mouseX <= 330*resize && mouseY >= 250*resize && mouseY <= 285*resize && currentScene === 1) { // wanneer er met de muis binnen deze marges wordt geklikt
         drawPractiseRoom();
-    } else if(mouseX >= 10*resize && mouseX <= 50*resize && mouseY >= 10*resize && mouseY <= 30*resize && currentScene === 3 || mouseX >= 10*resize && mouseX <= 50*resize && mouseY >= 10*resize && mouseY <= 30*resize && currentScene === 4) {
+    } else if(mouseX >= 10*resize && mouseX <= 50*resize && mouseY >= 10*resize && mouseY <= 30*resize && currentScene === 3 || mouseX >= 10*resize && mouseX <= 50*resize && mouseY >= 10*resize && mouseY <= 30*resize && currentScene === 4) { // wanneer er met de muis binnen deze marges wordt geklikt
         drawTitleScreen();
         drawPlayButton();
         drawPractiseButton();
         drawRules();
-        score.practise = 0;
-        richting.X = 1*resize;
-        richting.Y = 0;
-        ball.Xpos = 200*resize;
-        ball.Ypos = 200*resize;
+        resetValues();
         currentScene = 1;
     }
-    if(mouseX >= 10*resize && mouseX <= 50*resize && mouseY >= 10*resize && mouseY <= 30*resize && currentScene === 12){
+    if(mouseX >= 10*resize && mouseX <= 50*resize && mouseY >= 10*resize && mouseY <= 30*resize && currentScene === 12){ // wanneer er met de muis binnen deze marges wordt geklikt
         drawTitleScreenExtreme();
         drawTitleAnimation();
         drawPlayExtremeButton();
         drawPractiseExtremeButton();
         drawRulesExtreme();
+        resetValues();
         PowerUpNr = 0; 
     }
-    if(mouseX >= 246*resize && mouseX <= 316*resize && mouseY >= 300*resize && mouseY <= 340*resize) {
+    if(mouseX >= 246*resize && mouseX <= 316*resize && mouseY >= 300*resize && mouseY <= 340*resize) { // wanneer er met de muis binnen deze marges wordt geklikt
         if(currentScene === 1){
             drawRulesScreen();
             drawBackButton();
